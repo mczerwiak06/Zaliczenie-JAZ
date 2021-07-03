@@ -1,10 +1,18 @@
 package pjatk.jaz.jazs21356nbp.model;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
+@ApiModel("Data from nbp")
 public class Root {
+    @ApiModelProperty("Type of currency rates array")
     public String table;
+    @ApiModelProperty("Currency name")
     public String currency;
+    @ApiModelProperty("Currency code")
     public String code;
+    @ApiModelProperty("List of currency rates")
     public List<Rate> rates;
 
     public String getTable() {

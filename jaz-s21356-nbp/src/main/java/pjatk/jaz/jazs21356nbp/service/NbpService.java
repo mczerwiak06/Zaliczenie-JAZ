@@ -8,6 +8,7 @@ import pjatk.jaz.jazs21356nbp.model.Root;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
@@ -21,18 +22,16 @@ public class NbpService {
         this.restTemplate = restTemplate;
     }
 
-    public Double getAvarageRate(String currency, String sDateFrom, String sDateTo) throws ParseException {
-        String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency + sDateFrom + sDateTo;
+    public Double getAvarageRate(String currency, LocalDate startDate, LocalDate endDate) throws ParseException {
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startFormatDate = dateTimeFormatter.format(startDate);
+        String endFormatDate = dateTimeFormatter.format(endDate);
+        double daysCount = ChronoUnit.DAYS.between(startDate, endDate);
+
+        String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency + "/" + startFormatDate + "/" + "/" + endFormatDate;
         Root root = restTemplate.getForObject(url, Root.class);
         List<Rate> tableOfCurrencyValues = root.getRates();
-        //SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-        //Date dateFrom = format1.parse(sDateFrom);
-        //Date dateTo = format1.parse(sDateTo);
-         //long daysBetween = ChronoUnit.DAYS.between(dateFrom, dateTo);
-        LocalDate dateBefore = LocalDate.parse(sDateFrom);
-        LocalDate dateAfter = LocalDate.parse(sDateTo);
-
-        long daysCount = ChronoUnit.DAYS.between(dateBefore, dateAfter);
 
         double sumaricRate = 0.0;
         for(Rate currencies :tableOfCurrencyValues){

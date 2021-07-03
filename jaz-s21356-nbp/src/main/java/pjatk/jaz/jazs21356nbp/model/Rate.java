@@ -1,8 +1,15 @@
 package pjatk.jaz.jazs21356nbp.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("Data from nbp")
 public class Rate {
+    @ApiModelProperty("Number of currency rates array")
     public String no;
+    @ApiModelProperty("Date of publication")
     public String effectiveDate;
+    @ApiModelProperty("Counted medium currency rate")
     public double mid;
 
     public String getNo() {
